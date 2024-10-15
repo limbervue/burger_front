@@ -1,0 +1,196 @@
+///////////////////////////////////////////////////////////ESTILOS DEL LOGO HEADER
+.logo-content {
+    img {
+        width: 170px;
+        margin: 40px;
+        transition: transform 0.2s ease-in-out;
+    }
+
+    img:hover {
+        transition: transform 0.2s ease-in-out;
+        transform: scale(1.05);
+        cursor: pointer;
+    }
+
+    a {
+        img:hover {
+            box-shadow: 0 0 10px 5px rgba(223, 175, 31, 0.9);
+            transition: box-shadow 0.3s ease;
+            border-radius: 50%;
+        }
+    }
+}
+
+///////////////////////////////////////////////////////////ESTILOS DEL MAIN
+.main-content {
+    height: 100vh;
+    background-color: black;
+}
+
+/////////////////////////////////////////////////////////ESTILOS DEL HOME
+.home {
+    height: auto;
+    justify-content: center;
+    align-items: center;
+
+    &__home-container {
+        padding-top: 20px;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+
+        &__card {
+            transition: transform 0.3s ease-in-out;
+            width: 13rem;
+        }
+
+        &__card:hover {
+            transform: scale(1.05);
+            cursor: pointer;
+            box-shadow: 0 0 10px 5px rgba(191, 144, 0, 0.7);
+            transition: box-shadow 0.3s ease;
+            transition: transform 0.3s ease-in-out;
+        }
+    }
+}
+
+///////////////////////////////////////////////////////////////estilos de precios
+.nav {
+    margin: 0 40px 40px;
+    background-color: rgb(27, 27, 27);
+
+    &__item {
+        height: 60px;
+        display: flex;
+        align-items: center;
+        transition: transform 0.3s ease-in-out;
+
+        a {
+            color: white;
+            user-select: none;
+        }
+
+        a:focus {
+            color: white;
+        }
+    }
+
+    &__item:hover {
+        background-color: rgb(54, 54, 54);
+        border-radius: 5px;
+        transition: transform 0.3s ease-in-out;
+        transform: scale(1.05);
+
+        a {
+            color: white;
+        }
+    }
+}
+////////////////////////////estilos precios tablas hamburguesas, ingredientes, inventario
+.burguer_table {
+    background: black;
+    padding-bottom: 10px;
+
+    h1 {
+        color: #ffe033;
+        margin: 40px;
+        user-select: none;
+    }
+
+    &__content-table {
+        margin: 40px;
+
+        th {
+            color: #ffe033;
+        }
+        th.short-name {
+            display: none;
+        }
+        th.long-name {
+            display: table-cell;
+        }
+        //////////////////ingredientes
+        th.short-name-i {
+            display: none;
+        }
+        th.long-name-i {
+            display: table-cell;
+        }
+        //////////////////////inventario
+        th.short-name-inv {
+            display: none;
+        }
+        th.long-name-inv {
+            display: table-cell;
+        }
+        //////////////////////historial-gastos
+        th.short-name-hg {
+            display: none;
+        }
+        th.long-name-hg {
+            display: table-cell;
+        }
+
+        ////////////////gastos
+        .nav-link.long-name-gast {
+            display: table-cell;
+        }
+
+        .nav-link.short-name-gast {
+            display: none;
+        }
+
+        /////////////////////////para columna de ingredientes
+        .ingredientes {
+            max-height: 70px;
+            overflow-y: scroll;
+        }
+        ///////////////////////boton borrar history
+    }
+    .btn {
+        img {
+            width: 25px;
+        }
+    }
+}
+
+button:hover {
+    transition: transform 0.2s ease-in-out;
+    transform: scale(1.05);
+    border-radius: 5px;
+}
+
+.modal-edit {
+    flex-direction: column;
+    input {
+        margin-bottom: 10px;
+    }
+    //cuando no haya valores se desabilita el boton
+    button:disabled {
+        background-color: #ccc;
+        color: #666;
+        cursor: not-allowed;
+    }
+}
+///////botones inventario
+.buttons-inv {
+    display: flex;
+    flex-direction: row;
+    &__button {
+        button {
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+    }
+}
+///////////////////////////////modal detalle compra
+.content-modal {
+    &__detalles-gasto {
+        h2,
+        h3,
+        th {
+            color: #ffe033;
+        }
+    }
+}

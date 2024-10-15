@@ -1,0 +1,227 @@
+@media (max-width: 920px) {
+    /////////////////CONTENEDOR DE TARJETAS
+    .home {
+        &__home-container {
+            margin: 10px;
+            &__card {
+                width: 10rem;
+                h2 {
+                    font-size: 20px;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 758px) {
+    ///////////////////nombres de precios ingredientes reducidos
+    .price-burguer {
+        &__content-table {
+            th.short-name-inv {
+                display: table-cell;
+            }
+            th.long-name-inv {
+                display: none;
+            }
+        }
+    }
+}
+///////////////////////////////////////////////////////////PANTALLA 610PX
+@media (max-width: 610px) {
+    ///////////////////nombres de precios ingredientes reducidos
+    .buttons-inv {
+        display: flex;
+        flex-direction: column;
+
+        &__button {
+            width: 70px;
+            margin-left: 0px;
+            margin-right: 0px;
+            button {
+                width: 70px;
+            }
+        }
+    }
+}
+///////////////////////////////////////////////////////////PANTALLA 604PX
+@media (max-width: 604px) {
+    ///////////////////historial gastos
+    .price-burguer {
+        &__content-table {
+            th.short-name-hg {
+                display: table-cell;
+            }
+            th.long-name-hg {
+                display: none;
+            }
+        }
+    }
+}
+//////////////////////////////////BOTON BORRAR HISTORIAL GASTOS
+
+///////////////////////////////////////////////////////////PANTALLA 536PX
+@media (max-width: 536px) {
+    ///////////////////nombres de precios ingredientes reducidos
+    .price-burguer {
+        &__content-table {
+            th.short-name-i {
+                display: table-cell;
+            }
+            th.long-name-i {
+                display: none;
+            }
+        }
+    }
+}
+/////////////////////////////////////////////////////PANTALLA 527PX GASTOS
+@media (max-width: 527px) {
+    .nav-link.long-name-gast {
+        display: none;
+    }
+
+    .nav-link.short-name-gast {
+        display: table-cell;
+    }
+}
+@media (min-width: 527px) {
+    .nav-link.long-name-gast {
+        display: table-cell;
+    }
+
+    .nav-link.short-name-gast {
+        display: none;
+    }
+}
+///////////////////////////////////////////////////////////PANTALLA 473PX
+@media (max-width: 473px) {
+    ////////////////////CONTENEDOR DE TARJETAS
+    .home {
+        margin-top: -15px;
+    }
+    /////////////////TABLA PRECIO HAMBURGUESA
+    .price-burguer {
+        background: black;
+        padding-bottom: 10px;
+
+        h1 {
+            margin: 20px;
+        }
+
+        &__content-table {
+            margin: 20px;
+
+            th {
+                color: #ffe033;
+            }
+        }
+    }
+
+    /////////////////NAV DE PRECIOS HAMBUR / INGRE.
+    .nav {
+        margin: 0 20px 20px;
+    }
+    /////////////////LOGO PRINCIPAL
+    .logo-content {
+        img {
+            width: 150px;
+            margin: 20px;
+        }
+    }
+    /////////////////////////boton borrar history
+    .btn-delete {
+        button {
+            margin: 0px;
+        }
+    }
+}
+
+///////////////////////////////////////////////////////////PANTALLA 430PX
+@media (max-width: 430px) {
+    /////////////////TABLA PRECIO HAMBURGUESA
+    .price-burguer {
+        h1 {
+            margin: 10px;
+        }
+
+        &__content-table {
+            margin: 10px;
+
+            ///////////////////nombres de precios hamburguesa reducidos
+            th.long-name {
+                display: none;
+            }
+            th.short-name {
+                display: table-cell;
+            }
+        }
+    }
+    /////////////////NAV DE PRECIOS HAMBUR / INGRE.
+    .nav {
+        margin: 0 10px 10px;
+    }
+    /////////////////////////LOGO PTINCIPAL
+    .logo-content {
+        img {
+            width: 150px;
+            margin: 20px;
+        }
+    }
+}
+
+@media (min-width: 415px) {
+    .btn-delete {
+        button {
+            margin: 0px;
+        }
+    }
+    .long-name-button {
+        display: inline;
+    }
+    .short-name-button {
+        display: none;
+    }
+}
+
+@media (max-width: 414px) {
+    .btn-delete {
+        width: 50px;
+        button {
+            margin: 0px;
+            width: 50px;
+        }
+    }
+    .long-name-button {
+        display: none;
+    }
+    .short-name-button {
+        display: inline;
+    }
+}
+
+@media (max-width: 387px) {
+    .btn-delete {
+        button {
+            width: 40px;
+        }
+    }
+    .burguer_table {
+        .btn img {
+            width: 20px;
+            margin-left: -3px;
+        }
+    }
+}
+
+@media (max-width: 375px) {
+    .btn-delete {
+        button {
+            width: 35px;
+        }
+    }
+    .burguer_table {
+        .btn img {
+            width: 20px;
+            margin-left: -5px;
+        }
+    }
+}
