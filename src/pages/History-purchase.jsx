@@ -1,152 +1,161 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import Modal from "react-modal";
-import jsPDF from "jspdf";
-import "jspdf-autotable";
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
+import Modal from 'react-modal'
+import jsPDF from 'jspdf'
+import 'jspdf-autotable'
 
-function TableHistoryExpense() {
-    const apiUrl = import.meta.env.VITE_API_URL;
+import ClipLoader from 'react-spinners/ClipLoader'
 
-    const [expenses, setExpenses] = useState([]); // Lista de gastos
-    const [id, setId] = useState([]);
-    const [detailsExpenses, setDetailsExpenses] = useState([]);
-    const [selectedExpense, setSelectedExpense] = useState(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
-    const [mensaje, setMensaje] = useState("");
+function HistoryPurchase() {
+    const apiUrl = import.meta.env.VITE_API_URL
+
+    const [expenses, setExpenses] = useState([]) // Lista de gastos
+    const [id, setId] = useState([])
+    const [code, setCode] = useState([])
+    const [detailsExpenses, setDetailsExpenses] = useState([])
+    const [selectedExpense, setSelectedExpense] = useState(null)
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isModalOpenDelete, setIsModalOpenDelete] = useState(false)
+    const [mensaje, setMensaje] = useState('')
+
+    const [loading, setLoading] = useState(false) // Estado de carga
 
     useEffect(() => {
-        getExpenses(); // Obtener lista de gastos cuando el componente se monte
-    }, []);
+        getExpenses() // Obtener lista de gastos cuando el componente se monte
+    }, [])
 
     // Función para obtener el historial de gastos
     const getExpenses = async () => {
         try {
-            const response = await axios.get(`${apiUrl}/history-expenses`);
-            setExpenses(response.data); // Actualizar la lista de gastos
+            const response = await axios.get(`${apiUrl}/purchases`)
+            setExpenses(response.data) // Actualizar la lista de gastos
         } catch (error) {
             console.error(
-                "There was a problem with the fetch operation:",
+                'There was a problem with the fetch operation:',
                 error
-            );
+            )
         }
-    };
+    }
 
     // Función para obtener los detalles de un gasto específico
     const getDetailsExpenses = async (expense) => {
         try {
             const response = await axios.get(
-                `${apiUrl}/details-expense/${expense.id}`
-            );
-            console.log("Response from API:", response.data);
+                `${apiUrl}/details-expense/${expense._id}`
+            )
+            console.log('detalles desde front:', response.data)
 
             // Verificar si la respuesta tiene el campo detalles como arreglo
-            if (Array.isArray(response.data.detalles)) {
-                setDetailsExpenses(response.data.detalles); // Asigna el arreglo detalles
+            if (Array.isArray(response.data.details)) {
+                setDetailsExpenses(response.data.details) // Asigna el arreglo detalles
             } else {
                 console.error(
                     "El campo 'detalles' no es un arreglo:",
-                    response.data.detalles
-                );
-                setDetailsExpenses([]); // Establecer un arreglo vacío si 'detalles' no es un arreglo
+                    response.data.details
+                )
+                setDetailsExpenses([]) // Establecer un arreglo vacío si 'detalles' no es un arreglo
             }
 
-            setSelectedExpense(expense); // Guardar el gasto seleccionado
-            setIsModalOpen(true); // Abrir el modal
+            setSelectedExpense(expense) // Guardar el gasto seleccionado
+            setIsModalOpen(true) // Abrir el modal
         } catch (error) {
             console.error(
-                "There was a problem with the fetch operation:",
+                'There was a problem with the fetch operation:',
                 error
-            );
+            )
         }
-    };
+    }
 
-    const handleclickDetailsExpense = (id) => {
-        setId(id);
-        setIsModalOpenDelete(true);
-    };
+    const handleclickDetailsExpense = (id, code) => {
+        setId(id)
+        setCode(code)
+        setIsModalOpenDelete(true)
+    }
     const deleteDetailsExpense = async () => {
+        setLoading(true)
         try {
-            const response = await axios.delete(`${apiUrl}/expense/${id}`);
-            setMensaje(response.data.message);
-            setId("");
+            const response = await axios.delete(`${apiUrl}/purchase/${id}`)
+            setMensaje(response.data.message)
+            setId('')
         } catch (error) {
             if (error.response) {
                 // El servidor respondió con un código de estado fuera del rango 2xx
                 console.error(
-                    "Error de respuesta del servidor:",
+                    'Error de respuesta del servidor:',
                     error.response.data
-                );
-                console.error("Código de estado:", error.response.status);
-                console.error("Encabezados:", error.response.headers);
+                )
+                console.error('Código de estado:', error.response.status)
+                console.error('Encabezados:', error.response.headers)
             } else if (error.request) {
                 // La solicitud fue hecha pero no hubo respuesta
-                console.error("No se recibió respuesta:", error.request);
+                console.error('No se recibió respuesta:', error.request)
             } else {
                 // Algo pasó al configurar la solicitud que provocó un error
                 console.error(
-                    "Error al configurar la solicitud:",
+                    'Error al configurar la solicitud:',
                     error.message
-                );
+                )
             }
+        } finally {
+            setLoading(false) // Finaliza la carga en el bloque finally para asegurar que se oculte el cargando, tenga éxito o error.
         }
-        getExpenses();
-        setIsModalOpenDelete(false);
-    };
+        getExpenses()
+        setIsModalOpenDelete(false)
+    }
 
     // Función para cerrar el modal
     const closeModal = () => {
-        setIsModalOpen(false);
-        setSelectedExpense(null); // Limpiar el gasto seleccionado al cerrar el modal
-        setDetailsExpenses([]); // Limpiar los detalles del gasto
-    };
+        setIsModalOpen(false)
+        setSelectedExpense(null) // Limpiar el gasto seleccionado al cerrar el modal
+        setDetailsExpenses([]) // Limpiar los detalles del gasto
+    }
 
     const generatePDF = () => {
-        const doc = new jsPDF();
+        const doc = new jsPDF()
 
         // Título del documento
-        doc.setFontSize(22);
-        doc.text("Detalles de Gasto", 14, 22);
+        doc.setFontSize(22)
+        doc.text('Detalles de Gasto', 14, 22)
 
         // Detalles de gasto
-        doc.setFontSize(12);
-        doc.text(`Fecha: ${selectedExpense.fecha}`, 14, 40);
-        doc.text(`Hora: ${selectedExpense.hora}`, 14, 50);
+        doc.setFontSize(12)
+        doc.text(`Fecha: ${selectedExpense.date}`, 14, 40)
+        doc.text(`Hora: ${selectedExpense.time}`, 14, 50)
 
         // Crea la tabla
         const tableData = detailsExpenses.map((detalle) => [
-            detalle.ingrediente.nombre,
-            detalle.paquetes,
-            detalle.unidades,
+            detalle.ingredient_id.name,
+            detalle.package,
+            detalle.units,
             Number(detalle.total).toFixed(2),
-        ]);
+        ])
 
         // Define colores para las filas
-        const darkGray = [211, 211, 211]; // Gris oscuro
+        const darkGray = [211, 211, 211] // Gris oscuro
 
         doc.autoTable({
-            head: [["Ingrediente", "Paquetes", "Unidades", "Total"]],
+            head: [['Ingrediente', 'Paquetes', 'Unidades', 'Total']],
             body: tableData,
             startY: 60,
             styles: {
                 cellPadding: 4,
                 fontSize: 10,
                 textColor: [0, 0, 0], // Texto en negro para las filas
-                halign: "center", // Centro
+                halign: 'center', // Centro
             },
             headStyles: {
                 fillColor: darkGray, // Color oscuro para la cabecera
                 textColor: [0, 0, 0], // Texto en blanco para la cabecera
             },
-        });
+        })
 
         // Total
-        const totalY = doc.lastAutoTable.finalY + 10;
-        doc.text(`Total: ${selectedExpense.total}`, 14, totalY);
+        const totalY = doc.lastAutoTable.finalY + 10
+        doc.text(`Total: ${selectedExpense.total.toFixed(2)}`, 14, totalY)
 
         // Abre el PDF en una nueva ventana
-        doc.output("dataurlnewwindow");
-    };
+        doc.output('dataurlnewwindow')
+    }
 
     return (
         <div className="burguer_table price-burguer">
@@ -167,9 +176,9 @@ function TableHistoryExpense() {
                     </thead>
                     <tbody>
                         {expenses.map((hg) => (
-                            <tr key={hg.id}>
-                                <td>{hg.id}</td>
-                                <td>{hg.fecha}</td>
+                            <tr key={hg._id}>
+                                <td>{hg.code}</td>
+                                <td>{hg.date}</td>
                                 <td>{Number(hg.total).toFixed(2)}</td>
                                 <td>
                                     <button
@@ -183,7 +192,10 @@ function TableHistoryExpense() {
                                     <button
                                         className="btn btn-danger"
                                         onClick={() =>
-                                            handleclickDetailsExpense(hg.id)
+                                            handleclickDetailsExpense(
+                                                hg._id,
+                                                hg.code
+                                            )
                                         }
                                     >
                                         <img src="/delete_img.png" alt="" />
@@ -202,18 +214,18 @@ function TableHistoryExpense() {
                     onRequestClose={closeModal}
                     style={{
                         content: {
-                            top: "50%",
-                            left: "50%",
-                            right: "auto",
-                            bottom: "auto",
-                            marginRight: "-50%",
-                            transform: "translate(-50%, -50%)",
-                            background: "rgb(27, 27, 27)",
-                            color: "white",
-                            border: "2px solid rgb(221, 189, 92)",
+                            top: '50%',
+                            left: '50%',
+                            right: 'auto',
+                            bottom: 'auto',
+                            marginRight: '-50%',
+                            transform: 'translate(-50%, -50%)',
+                            background: 'rgb(27, 27, 27)',
+                            color: 'white',
+                            border: '2px solid rgb(221, 189, 92)',
                         },
                         overlay: {
-                            backgroundColor: "rgba(0, 0, 0, 0.8)", // Cambia esto al color que desees
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)', // Cambia esto al color que desees
                         },
                     }}
                 >
@@ -221,11 +233,11 @@ function TableHistoryExpense() {
                         <h2>Detalles de Gasto</h2>
                         <span
                             style={{
-                                position: "absolute",
-                                top: "10px",
-                                right: "20px",
-                                cursor: "pointer",
-                                fontSize: "25px",
+                                position: 'absolute',
+                                top: '10px',
+                                right: '20px',
+                                cursor: 'pointer',
+                                fontSize: '25px',
                             }}
                             onClick={closeModal}
                         >
@@ -234,13 +246,13 @@ function TableHistoryExpense() {
                         {selectedExpense && (
                             <div>
                                 <br />
-                                <h5>Fecha: {selectedExpense.fecha}</h5>
-                                <h5>Hora: {selectedExpense.hora}</h5>
+                                <h5>Fecha: {selectedExpense.date}</h5>
+                                <h5>Hora: {selectedExpense.time}</h5>
                                 <br />
                                 <div
                                     style={{
-                                        maxHeight: "250px",
-                                        overflowY: "scroll",
+                                        maxHeight: '250px',
+                                        overflowY: 'scroll',
                                     }}
                                 >
                                     <table className="table table-striped table-bordered table-dark">
@@ -254,15 +266,16 @@ function TableHistoryExpense() {
                                         </thead>
                                         <tbody>
                                             {detailsExpenses.map((detalle) => (
-                                                <tr key={detalle.id}>
+                                                <tr key={detalle._id}>
                                                     <td>
                                                         {
-                                                            detalle.ingrediente
-                                                                .nombre
+                                                            detalle
+                                                                .ingredient_id
+                                                                .name
                                                         }
                                                     </td>
-                                                    <td>{detalle.paquetes}</td>
-                                                    <td>{detalle.unidades}</td>
+                                                    <td>{detalle.package}</td>
+                                                    <td>{detalle.units}</td>
                                                     <td>
                                                         {Number(
                                                             detalle.total
@@ -274,7 +287,9 @@ function TableHistoryExpense() {
                                     </table>
                                 </div>
                                 <br />
-                                <h3>Total: {selectedExpense.total}</h3>
+                                <h3>
+                                    Total: {selectedExpense.total.toFixed(2)}
+                                </h3>
                             </div>
                         )}
                     </div>
@@ -288,24 +303,24 @@ function TableHistoryExpense() {
                 </Modal>
 
                 <Modal
-                    isOpen={isModalOpenDelete}
+                    isOpen={isModalOpenDelete && !loading}
                     onRequestClose={() => setIsModalOpenDelete(false)}
                     contentLabel="Editar Precio"
                     style={{
                         content: {
-                            top: "50%",
-                            left: "50%",
-                            right: "auto",
-                            bottom: "auto",
-                            marginRight: "-50%",
-                            transform: "translate(-50%, -50%)",
+                            top: '50%',
+                            left: '50%',
+                            right: 'auto',
+                            bottom: 'auto',
+                            marginRight: '-50%',
+                            transform: 'translate(-50%, -50%)',
                         },
                         overlay: {
-                            backgroundColor: "rgba(0, 0, 0, 0.8)", // Cambia esto al color que desees
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)', // Cambia esto al color que desees
                         },
                     }}
                 >
-                    <h2>Borrar el registro {id}?</h2>
+                    <h2>Borrar el registro {code}?</h2>
                     <div class="modal-edit">
                         <div class="modal-edit__buttons">
                             <div>
@@ -313,8 +328,8 @@ function TableHistoryExpense() {
                                     onClick={deleteDetailsExpense}
                                     class="btn btn-primary modal-edit__buttons__save"
                                     style={{
-                                        padding: "10px",
-                                        marginRight: "4px",
+                                        padding: '10px',
+                                        marginRight: '4px',
                                     }}
                                 >
                                     ok
@@ -322,7 +337,7 @@ function TableHistoryExpense() {
                                 <button
                                     onClick={() => setIsModalOpenDelete(false)}
                                     class="btn btn-danger"
-                                    style={{ padding: "10px" }}
+                                    style={{ padding: '10px' }}
                                 >
                                     Cancelar
                                 </button>
@@ -331,31 +346,38 @@ function TableHistoryExpense() {
                     </div>
                 </Modal>
 
+                {/* Indicador de Carga con Spinner */}
+                {loading && (
+                    <div className="loading">
+                        <ClipLoader color="#000" loading={true} size={50} />
+                        <p>Eliminando...</p>
+                    </div>
+                )}
                 {mensaje && (
                     <Modal
-                        isOpen={mensaje !== ""}
-                        onRequestClose={() => setMensaje("")}
+                        isOpen={mensaje !== ''}
+                        onRequestClose={() => setMensaje('')}
                         contentLabel="Mensaje"
                         style={{
                             content: {
-                                top: "50%",
-                                left: "50%",
-                                right: "auto",
-                                bottom: "auto",
-                                marginRight: "-50%",
-                                transform: "translate(-50%, -50%)",
+                                top: '50%',
+                                left: '50%',
+                                right: 'auto',
+                                bottom: 'auto',
+                                marginRight: '-50%',
+                                transform: 'translate(-50%, -50%)',
                             },
                             overlay: {
-                                backgroundColor: "rgba(0, 0, 0, 0.8)",
+                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
                             },
                         }}
                     >
                         <div className="precio-mensaje">
                             <h2>{mensaje}</h2>
                             <button
-                                onClick={() => setMensaje("")}
+                                onClick={() => setMensaje('')}
                                 class="btn btn-danger"
-                                style={{ padding: "6px" }}
+                                style={{ padding: '6px' }}
                             >
                                 Cerrar
                             </button>
@@ -364,7 +386,7 @@ function TableHistoryExpense() {
                 )}
             </div>
         </div>
-    );
+    )
 }
 
-export default TableHistoryExpense;
+export default HistoryPurchase

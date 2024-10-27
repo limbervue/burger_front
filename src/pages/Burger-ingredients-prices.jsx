@@ -1,64 +1,64 @@
-import React, { useState, useEffect, useCallback } from "react";
-import Modal from "react-modal";
-import axios from "axios";
-Modal.setAppElement("#root");
+import React, { useState, useEffect, useCallback } from 'react'
+import Modal from 'react-modal'
+import axios from 'axios'
+Modal.setAppElement('#root')
 
 function BurgerIngredientsPrices() {
     /////////////////////////////////////////////////
-    const apiUrl = import.meta.env.VITE_API_URL;
-    console.log("La apiUrl es: " + apiUrl);
+    const apiUrl = import.meta.env.VITE_API_URL
+    console.log('La apiUrl es: ' + apiUrl)
     //////////////////////////////////////////////////
-    const [productos, setProductos] = useState([]);
-    const [id, setId] = useState(null);
-    const [price_porcion, setPricePorcion] = useState("");
-    const [price_paquete, setPricePaquete] = useState("");
-    const [units, setUnits] = useState("");
-    const [product, setProduct] = useState("");
-    const [price_porcionDB, setPricePorcionDB] = useState("");
-    const [price_paqueteDB, setPricePaqueteDB] = useState("");
-    const [unitsDB, setUnitsDB] = useState("");
-    const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [mensaje, setMensaje] = useState("");
+    const [productos, setProductos] = useState([])
+    const [id, setId] = useState(null)
+    const [price_porcion, setPricePorcion] = useState('')
+    const [price_paquete, setPricePaquete] = useState('')
+    const [units, setUnits] = useState('')
+    const [product, setProduct] = useState('')
+    const [price_porcionDB, setPricePorcionDB] = useState('')
+    const [price_paqueteDB, setPricePaqueteDB] = useState('')
+    const [unitsDB, setUnitsDB] = useState('')
+    const [modalIsOpen, setModalIsOpen] = useState(false)
+    const [mensaje, setMensaje] = useState('')
 
     useEffect(() => {
-        getIngredients();
-    }, []);
+        getIngredients()
+    }, [])
 
     const getIngredients = async () => {
         try {
-            const response = await axios.get(`${apiUrl}/ingredients`);
-            setProductos(response.data);
+            const response = await axios.get(`${apiUrl}/ingredients`)
+            setProductos(response.data)
         } catch (error) {
             console.error(
-                "There was a problem with the fetch operation:",
+                'There was a problem with the fetch operation:',
                 error
-            );
+            )
         }
-    };
+    }
     //al hacer click en editar se ejecuta esta funcion
     const handleEditClick = (
         id,
+        product,
         price_paquete,
         price_porcion,
-        units,
-        product
+        units
     ) => {
-        setId(id);
-        const paquete = parseFloat(price_paquete);
-        const porcion = parseFloat(price_porcion);
-        const unidades = parseInt(units, 10);
+        setId(id)
+        const paquete = parseFloat(price_paquete)
+        const porcion = parseFloat(price_porcion)
+        const unidades = parseInt(units, 10)
 
-        setPricePaquete(paquete.toFixed(2));
-        setPricePorcion(porcion.toFixed(2));
-        setUnits(unidades);
-        setProduct(product);
+        setPricePaquete(paquete.toFixed(2))
+        setPricePorcion(porcion.toFixed(2))
+        setUnits(unidades)
+        setProduct(product)
 
-        setPricePaqueteDB(paquete.toFixed(2));
-        setPricePorcionDB(porcion.toFixed(2));
-        setUnitsDB(unidades);
+        setPricePaqueteDB(paquete.toFixed(2))
+        setPricePorcionDB(porcion.toFixed(2))
+        setUnitsDB(unidades)
 
-        setModalIsOpen(true);
-    };
+        setModalIsOpen(true)
+    }
     //al dar click en guardar se ejecuta esta funcion
     const handleSaveClick = async () => {
         try {
@@ -66,7 +66,7 @@ function BurgerIngredientsPrices() {
                 precio_paquete: price_paquete,
                 precio_porcion: price_porcion,
                 unidades: units,
-            });
+            })
             setProductos(
                 productos.map((producto) =>
                     producto.id === id
@@ -78,50 +78,50 @@ function BurgerIngredientsPrices() {
                           }
                         : producto
                 )
-            );
-            setModalIsOpen(false);
-            setId(null);
-            setPricePaquete("");
-            setPricePorcion("");
-            setUnits("");
-            setProduct("");
-            setMensaje(response.data.message);
-            getIngredients();
+            )
+            setModalIsOpen(false)
+            setId(null)
+            setPricePaquete('')
+            setPricePorcion('')
+            setUnits('')
+            setProduct('')
+            setMensaje(response.data.message)
+            getIngredients()
         } catch (error) {
-            console.error("Error al actualizar los precios:", error);
+            console.error('Error al actualizar los precios:', error)
         }
-    };
+    }
 
     //para validar que solo se ingresen numeros y estos numero puedes ser
     const validarNumberFloat = (valor) => {
-        const regex = /^\d*\.?\d{0,2}$/;
-        return regex.test(valor);
-    };
+        const regex = /^\d*\.?\d{0,2}$/
+        return regex.test(valor)
+    }
 
     const validarNumeroEntero = (valor) => {
-        const regex = /^\d*$/; // Solo acepta dígitos
-        return regex.test(valor);
-    };
+        const regex = /^\d*$/ // Solo acepta dígitos
+        return regex.test(valor)
+    }
 
     // Función handleChange que utiliza ambas validaciones
     const handleChange = (event, setter, tipo) => {
-        const valor = event.target.value;
+        const valor = event.target.value
 
         if (
-            (tipo === "flotante" && validarNumberFloat(valor)) ||
-            (tipo === "entero" && validarNumeroEntero(valor)) ||
-            valor === ""
+            (tipo === 'flotante' && validarNumberFloat(valor)) ||
+            (tipo === 'entero' && validarNumeroEntero(valor)) ||
+            valor === ''
         ) {
-            setter(valor);
+            setter(valor)
         } else {
-            console.error("El valor ingresado no es válido.");
+            console.error('El valor ingresado no es válido.')
         }
-    };
+    }
 
     // Función que verifica si ambos inputs tienen valores
     const todosLosInputsLlenos = useCallback(() => {
-        return price_paquete !== "" && price_porcion !== "" && units !== "";
-    }, [price_paquete, price_porcion, units]);
+        return price_paquete !== '' && price_porcion !== '' && units !== ''
+    }, [price_paquete, price_porcion, units])
 
     // Función que compara los valores de los inputs con los valores de la base de datos
     const compararValores = useCallback(() => {
@@ -129,7 +129,7 @@ function BurgerIngredientsPrices() {
             price_paquete === price_paqueteDB &&
             price_porcion === price_porcionDB &&
             parseInt(units, 10) === parseInt(unitsDB, 10)
-        );
+        )
     }, [
         price_paquete,
         price_porcion,
@@ -137,7 +137,7 @@ function BurgerIngredientsPrices() {
         price_paqueteDB,
         price_porcionDB,
         unitsDB,
-    ]);
+    ])
 
     //////////////////////////////////////////////////////////////////////////
     return (
@@ -160,21 +160,21 @@ function BurgerIngredientsPrices() {
                     </thead>
                     <tbody>
                         {productos.map((ingrediente) => (
-                            <tr key={ingrediente.id}>
-                                <td>{ingrediente.nombre}</td>
-                                <td>{ingrediente.precio_paquete}</td>
-                                <td>{ingrediente.precio_porcion}</td>
-                                <td>{ingrediente.contenido_paquete}</td>
+                            <tr key={ingrediente._id}>
+                                <td>{ingrediente.name}</td>
+                                <td>{ingrediente.package_price.toFixed(2)}</td>
+                                <td>{ingrediente.portion_price.toFixed(2)}</td>
+                                <td>{ingrediente.package_content}</td>
 
                                 <td>
                                     <button
                                         onClick={() =>
                                             handleEditClick(
-                                                ingrediente.id,
-                                                ingrediente.precio_paquete,
-                                                ingrediente.precio_porcion,
-                                                ingrediente.contenido_paquete,
-                                                ingrediente.nombre
+                                                ingrediente._id,
+                                                ingrediente.name,
+                                                ingrediente.package_price,
+                                                ingrediente.portion_price,
+                                                ingrediente.package_content
                                             )
                                         }
                                         className="btn btn-success"
@@ -193,15 +193,15 @@ function BurgerIngredientsPrices() {
                     contentLabel="Editar Precio"
                     style={{
                         content: {
-                            top: "50%",
-                            left: "50%",
-                            right: "auto",
-                            bottom: "auto",
-                            marginRight: "-50%",
-                            transform: "translate(-50%, -50%)",
+                            top: '50%',
+                            left: '50%',
+                            right: 'auto',
+                            bottom: 'auto',
+                            marginRight: '-50%',
+                            transform: 'translate(-50%, -50%)',
                         },
                         overlay: {
-                            backgroundColor: "rgba(0, 0, 0, 0.8)",
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
                         },
                     }}
                 >
@@ -212,12 +212,12 @@ function BurgerIngredientsPrices() {
                             <input
                                 type="text"
                                 value={price_paquete}
-                                style={{ padding: "8px", marginRight: "4px" }}
+                                style={{ padding: '8px', marginRight: '4px' }}
                                 onChange={(event) =>
                                     handleChange(
                                         event,
                                         setPricePaquete,
-                                        "flotante"
+                                        'flotante'
                                     )
                                 }
                             />
@@ -225,12 +225,12 @@ function BurgerIngredientsPrices() {
                             <input
                                 type="text"
                                 value={price_porcion}
-                                style={{ padding: "8px", marginRight: "4px" }}
+                                style={{ padding: '8px', marginRight: '4px' }}
                                 onChange={(event) =>
                                     handleChange(
                                         event,
                                         setPricePorcion,
-                                        "flotante"
+                                        'flotante'
                                     )
                                 }
                             />
@@ -238,9 +238,9 @@ function BurgerIngredientsPrices() {
                             <input
                                 type="text"
                                 value={units}
-                                style={{ padding: "8px", marginRight: "4px" }}
+                                style={{ padding: '8px', marginRight: '4px' }}
                                 onChange={(event) =>
-                                    handleChange(event, setUnits, "entero")
+                                    handleChange(event, setUnits, 'entero')
                                 }
                             />
                         </div>
@@ -249,7 +249,7 @@ function BurgerIngredientsPrices() {
                             <button
                                 onClick={handleSaveClick}
                                 class="btn btn-primary"
-                                style={{ padding: "10px", marginRight: "4px" }}
+                                style={{ padding: '10px', marginRight: '4px' }}
                                 disabled={
                                     !todosLosInputsLlenos() || compararValores()
                                 }
@@ -259,7 +259,7 @@ function BurgerIngredientsPrices() {
                             <button
                                 onClick={() => setModalIsOpen(false)}
                                 class="btn btn-danger"
-                                style={{ padding: "10px" }}
+                                style={{ padding: '10px' }}
                             >
                                 Cancelar
                             </button>
@@ -269,28 +269,28 @@ function BurgerIngredientsPrices() {
 
                 {mensaje && (
                     <Modal
-                        isOpen={mensaje !== ""}
-                        onRequestClose={() => setMensaje("")}
+                        isOpen={mensaje !== ''}
+                        onRequestClose={() => setMensaje('')}
                         contentLabel="Mensaje"
                         style={{
                             content: {
-                                top: "50%",
-                                left: "50%",
-                                right: "auto",
-                                bottom: "auto",
-                                marginRight: "-50%",
-                                transform: "translate(-50%, -50%)",
+                                top: '50%',
+                                left: '50%',
+                                right: 'auto',
+                                bottom: 'auto',
+                                marginRight: '-50%',
+                                transform: 'translate(-50%, -50%)',
                             },
                             overlay: {
-                                backgroundColor: "rgba(0, 0, 0, 0.8)",
+                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
                             },
                         }}
                     >
                         <h2>{mensaje}</h2>
                         <button
-                            onClick={() => setMensaje("")}
+                            onClick={() => setMensaje('')}
                             class="btn btn-danger"
-                            style={{ padding: "6px" }}
+                            style={{ padding: '6px' }}
                         >
                             Cerrar
                         </button>
@@ -298,7 +298,7 @@ function BurgerIngredientsPrices() {
                 )}
             </div>
         </div>
-    );
+    )
 }
 
-export default BurgerIngredientsPrices;
+export default BurgerIngredientsPrices

@@ -1,28 +1,28 @@
-import React, { useState, useEffect } from "react";
-import Modal from "react-modal";
-import axios from "axios";
+import React, { useState, useEffect } from 'react'
+import Modal from 'react-modal'
+import axios from 'axios'
 
 function Inventory() {
     /////////////////////////////////////////////////
-    const apiUrl = import.meta.env.VITE_API_URL;
+    const apiUrl = import.meta.env.VITE_API_URL
     //////////////////////////////////////////////////
-    const [products, setProducts] = useState([]);
-    const [mensaje, setMensaje] = useState("");
-    const [modalIsOpenReset, setModalIsOpenReset] = useState(false);
+    const [products, setProducts] = useState([])
+    const [mensaje, setMensaje] = useState('')
+    const [modalIsOpenReset, setModalIsOpenReset] = useState(false)
 
     useEffect(() => {
-        getIngredientsInv();
-    }, []);
+        getIngredientsInv()
+    }, [])
 
     //obtner ingredientes de inventario
     const getIngredientsInv = async () => {
         try {
-            const response = await axios.get(`${apiUrl}/inventory`);
-            setProducts(response.data);
+            const response = await axios.get(`${apiUrl}/inventory`)
+            setProducts(response.data)
         } catch (error) {
-            console.error("There was a problem with the axios request:", error);
+            console.error('There was a problem with the axios request:', error)
         }
-    };
+    }
 
     //VACIAR INVENTARIO
     const resetInventory = async () => {
@@ -32,27 +32,27 @@ function Inventory() {
                 {},
                 {
                     headers: {
-                        "Content-Type": "application/json",
+                        'Content-Type': 'application/json',
                     },
                 }
-            );
-            const data = response.data;
-            console.log(data);
+            )
+            const data = response.data
+            console.log(data)
             // Actualizar la lista de productos en el frontend
             const updatedGatos = products.map((gasto) => ({
                 ...gasto,
                 total_unidades: 0,
-            }));
+            }))
 
-            setProducts(updatedGatos);
-            setMensaje(data.message);
-            setModalIsOpenReset(false);
-            getIngredientsInv();
+            setProducts(updatedGatos)
+            setMensaje(data.message)
+            setModalIsOpenReset(false)
+            getIngredientsInv()
         } catch (error) {
-            console.error("Error al restablecer los valores:", error);
-            setMensaje("Hubo un error al restablecer los valores.");
+            console.error('Error al restablecer los valores:', error)
+            setMensaje('Hubo un error al restablecer los valores.')
         }
-    };
+    }
 
     /////////////////////////////////////////////////////////////////////RETURN
     return (
@@ -70,9 +70,9 @@ function Inventory() {
                     </thead>
                     <tbody>
                         {products.map((product) => (
-                            <tr key={product.id}>
-                                <td>{product.nombre}</td>
-                                <td>{product.total_unidades}</td>
+                            <tr key={product._id}>
+                                <td>{product.ingredientName}</td>
+                                <td>{product.total_units}</td>
                             </tr>
                         ))}
                         <tr>
@@ -93,32 +93,32 @@ function Inventory() {
                     contentLabel="Mensaje"
                     style={{
                         content: {
-                            top: "50%",
-                            left: "50%",
-                            right: "auto",
-                            bottom: "auto",
-                            marginRight: "-50%",
-                            transform: "translate(-50%, -50%)",
+                            top: '50%',
+                            left: '50%',
+                            right: 'auto',
+                            bottom: 'auto',
+                            marginRight: '-50%',
+                            transform: 'translate(-50%, -50%)',
                         },
                         overlay: {
-                            backgroundColor: "rgba(0, 0, 0, 0.8)",
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
                         },
                     }}
                 >
                     <div className="modal-edit">
-                        <h2>{"vaciar inventario?"}</h2>
+                        <h2>{'vaciar inventario?'}</h2>
                         <div className="modal-edit__buttons">
                             <button
                                 onClick={() => resetInventory()}
                                 class="btn btn-primary"
-                                style={{ padding: "10px", marginRight: "4px" }}
+                                style={{ padding: '10px', marginRight: '4px' }}
                             >
                                 Aceptar
                             </button>
                             <button
                                 onClick={() => setModalIsOpenReset(false)}
                                 class="btn btn-danger"
-                                style={{ padding: "10px", marginRight: "4px" }}
+                                style={{ padding: '10px', marginRight: '4px' }}
                             >
                                 Cancelar
                             </button>
@@ -127,7 +127,7 @@ function Inventory() {
                 </Modal>
             </div>
         </div>
-    );
+    )
 }
 
-export default Inventory;
+export default Inventory

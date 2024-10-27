@@ -1,20 +1,19 @@
-import Home from "./pages/Home";
-import Inventory from "./pages/Inventory";
-import BurgerPrices from "./pages/Burger-prices";
-import BurgerIngredientsPrices from "./pages/Burger-ingredients-prices";
-import Expenses from "./pages/Expenses";
+import Home from './pages/Home'
+import Inventory from './pages/Inventory'
+import BurgerPrices from './pages/Burger-prices'
+import BurgerIngredientsPrices from './pages/Burger-ingredients-prices'
+import Expenses from './pages/Expenses'
 // //////////////////////////////////////////COMPONENTS
-import Logo from "./components/Logo";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./styles/styles.scss";
-import "./styles/mediaQueries.scss";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import NavPrices from "./components/Nav-Prices";
-import NavInvoice from "./components/Nav-invoice";
-import Sales from "./pages/Sales";
-import HistoryExpenses from "./pages/history-expenses";
-import HistorySales from "./pages/history-sales";
-
+import Logo from './components/Logo'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import './styles/styles.scss'
+import './styles/mediaQueries.scss'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import NavPrices from './components/Nav-Prices'
+import NavInvoice from './components/Nav-invoice'
+import Sales from './pages/Sales'
+import HistorySales from './pages/history-sales'
+import HistoryPurchase from './pages/History-purchase'
 function App() {
     return (
         <Router>
@@ -49,7 +48,7 @@ function App() {
                         {/* HISTORIAL DE GASTOS Y VENTAS */}
                         <Route
                             path="/facturacion/historial_gastos"
-                            element={<HistoryExpenses />}
+                            element={<HistoryPurchase />}
                         />
                         <Route
                             path="/facturacion/historial_ventas"
@@ -59,7 +58,7 @@ function App() {
                 </Routes>
             </div>
         </Router>
-    );
+    )
 }
 
-export default App;
+export default App

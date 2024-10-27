@@ -22,6 +22,7 @@ function BurgerPrices() {
         try {
             const response = await axios.get(`${apiUrl}/burgers`);
             setProductos(response.data);
+            console.log(response.data); // Imprime los datos obtenidos de la API
         } catch (error) {
             console.error(
                 "There was a problem with the fetch operation:",
@@ -114,20 +115,20 @@ function BurgerPrices() {
                     </thead>
                     <tbody>
                         {productos.map((producto) => (
-                            <tr key={producto.id}>
-                                <td>{producto.tipo}</td>
+                            <tr key={producto._id}>
+                                <td>{producto.type}</td>
                                 <td>
                                     <div className="ingredientes">
-                                        {producto.ingredientes.join(", ")}
+                                    {producto.ingredients.join(", ")} 
                                     </div>
                                 </td>
-                                <td>{producto.precio}</td>
+                                <td>{producto.price.toFixed(2)}</td>
                                 <td>
                                     <button
                                         onClick={() =>
                                             handleEditClick(
-                                                producto.id,
-                                                producto.precio
+                                                producto._id,
+                                                producto.price
                                             )
                                         }
                                         className="btn btn-success"
