@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import Modal from 'react-modal'
 import axios from 'axios'
+import ClipLoader from 'react-spinners/ClipLoader'
+
 Modal.setAppElement('#root')
 
 function BurgerIngredientsPrices() {
@@ -19,12 +21,13 @@ function BurgerIngredientsPrices() {
     const [unitsDB, setUnitsDB] = useState('')
     const [modalIsOpen, setModalIsOpen] = useState(false)
     const [mensaje, setMensaje] = useState('')
-
+    const [loading, setLoading] = useState(false) // Estado de carga
     useEffect(() => {
         getIngredients()
     }, [])
 
     const getIngredients = async () => {
+        setLoading(true)
         try {
             const response = await axios.get(`${apiUrl}/ingredients`)
             setProductos(response.data)
@@ -33,6 +36,8 @@ function BurgerIngredientsPrices() {
                 'There was a problem with the fetch operation:',
                 error
             )
+        } finally {
+            setLoading(false)
         }
     }
     //al hacer click en editar se ejecuta esta funcion
@@ -61,6 +66,7 @@ function BurgerIngredientsPrices() {
     }
     //al dar click en guardar se ejecuta esta funcion
     const handleSaveClick = async () => {
+        setLoading(true)
         try {
             const response = await axios.put(`${apiUrl}/ingredient/${id}`, {
                 precio_paquete: price_paquete,
@@ -89,6 +95,8 @@ function BurgerIngredientsPrices() {
             getIngredients()
         } catch (error) {
             console.error('Error al actualizar los precios:', error)
+        } finally {
+            setLoading(true)
         }
     }
 
@@ -144,6 +152,14 @@ function BurgerIngredientsPrices() {
         <div className=" burguer_table price-burguer">
             <h1 className="mb-4 ">Ingredientes</h1>
             <div className="table-responsive burguer_table__content-table price-burguer__content-table">
+                {loading && (
+                    <div
+                        className="loading"
+                        style={{ textAlign: 'center', marginBottom: '10px' }}
+                    >
+                        <ClipLoader color="#000" loading={true} size={50} />
+                    </div>
+                )}
                 <table className="table table-striped table-bordered table-dark">
                     <thead className="thead-dark">
                         <tr>

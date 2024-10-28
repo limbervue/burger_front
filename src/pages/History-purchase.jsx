@@ -26,6 +26,7 @@ function HistoryPurchase() {
 
     // Función para obtener el historial de gastos
     const getExpenses = async () => {
+        setLoading(true)
         try {
             const response = await axios.get(`${apiUrl}/purchases`)
             setExpenses(response.data) // Actualizar la lista de gastos
@@ -34,11 +35,14 @@ function HistoryPurchase() {
                 'There was a problem with the fetch operation:',
                 error
             )
+        } finally {
+            setLoading(false)
         }
     }
 
     // Función para obtener los detalles de un gasto específico
     const getDetailsExpenses = async (expense) => {
+        setLoading(true)
         try {
             const response = await axios.get(
                 `${apiUrl}/details-expense/${expense._id}`
@@ -63,6 +67,8 @@ function HistoryPurchase() {
                 'There was a problem with the fetch operation:',
                 error
             )
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -350,7 +356,6 @@ function HistoryPurchase() {
                 {loading && (
                     <div className="loading">
                         <ClipLoader color="#000" loading={true} size={50} />
-                        <p>Eliminando...</p>
                     </div>
                 )}
                 {mensaje && (

@@ -24,7 +24,6 @@ function Expenses() {
         return savedData ? JSON.parse(savedData) : []
     })
     const [mensaje, setMensaje] = useState('')
-
     const [loading, setLoading] = useState(false) // Estado de carga
 
     // Petición a la API para obtener los ingredientes
@@ -37,25 +36,29 @@ function Expenses() {
             setTablaTemporal(JSON.parse(savedData))
         }
     }, [])
-
+    //////////////////////////////////////////////////////////////////
     const getIngredients = async () => {
+        setLoading(true)
         try {
             const response = await axios.get(`${apiUrl}/ingredients`)
             setIngredientes(response.data)
+            console.log('datos...', response.data)
         } catch (error) {
             console.error(
                 'There was a problem with the fetch operation:',
                 error
             )
+        } finally {
+            setLoading(false)
         }
     }
-
+    ///////////////////////////////////////////////////////////
     useEffect(() => {
         if (tablaTemporal.length > 0) {
             localStorage.setItem('tablaTemporal', JSON.stringify(tablaTemporal))
         }
     }, [tablaTemporal])
-
+    ////////////////////////////////////////////////////////
     const expenses = async () => {
         setLoading(true)
         try {
@@ -86,7 +89,7 @@ function Expenses() {
             localStorage.removeItem('tablaTemporal') // Limpia el localStorage
         }
     }
-
+    //////////////////////////////////////////////////////////////////
     const handleAddClick = (
         id,
         price_paquete,
@@ -184,7 +187,6 @@ function Expenses() {
                         style={{ textAlign: 'center', marginBottom: '10px' }}
                     >
                         <ClipLoader color="#000" loading={true} size={50} />
-                        <p>Guardando...</p>
                     </div>
                 )}
                 <table className="table table-striped table-bordered table-dark">
