@@ -106,57 +106,49 @@ function BurgerPrices() {
     }, [price, priceDB])
 
     return (
-        <div className=" burguer_table price-burguer">
-            <h1 className="mb-4 ">Hamburguesas</h1>
-            <div className="table-responsive burguer_table__content-table price-burguer__content-table">
-                {loading && (
-                    <div
-                        className="loading"
-                        style={{ textAlign: 'center', marginBottom: '10px' }}
-                    >
-                        <ClipLoader color="#000" loading={true} size={50} />
-                    </div>
-                )}
-                <table className="table table-striped table-bordered table-dark">
-                    <thead className="thead-dark">
-                        <tr>
-                            <th class="long-name">Tipo de Hamburguesa</th>
-                            <th class="short-name">Tipo</th>
-                            <th class="long-name">Ingredientes</th>
-                            <th class="short-name">Ingredientes</th>
-                            <th class="long-name">Precio</th>
-                            <th class="short-name">Precio</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {productos.map((producto) => (
-                            <tr key={producto._id}>
-                                <td>{producto.type}</td>
-                                <td>
-                                    <div className="ingredientes">
-                                        {producto.ingredients.join(', ')}
-                                    </div>
-                                </td>
-                                <td>{producto.price.toFixed(2)}</td>
-                                <td>
-                                    <button
-                                        onClick={() =>
-                                            handleEditClick(
-                                                producto._id,
-                                                producto.price
-                                            )
-                                        }
-                                        className="btn btn-success"
-                                    >
-                                        <img src="/edit_img.png" alt="" />
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+        <div className="burguer-grid price-burguer">
+            {loading && (
+                <div
+                    className="loading"
+                    style={{ textAlign: 'center', marginBottom: '10px' }}
+                >
+                    <ClipLoader color="#000" loading={true} size={50} />
+                </div>
+            )}
+            <div className="grid-container">
+                {productos.map((producto) => (
+                    <div className="grid-item" key={producto._id}>
+                        <div className="grid-data">
+                            <h2>{producto.type}</h2>
 
+                            <p className="ingredientes">
+                                <strong>Ingredientes:</strong>{' '}
+                                {producto.ingredients.join(', ')}
+                            </p>
+                            <p className="precio">
+                                <strong>Precio:</strong> $
+                                {producto.price.toFixed(2)}
+                            </p>
+                            <div className="grid-burger">
+                                <img src="/burger.png" alt="" />
+                            </div>
+                        </div>
+                        <div className="grid-button">
+                            <button
+                                onClick={() =>
+                                    handleEditClick(
+                                        producto._id,
+                                        producto.price
+                                    )
+                                }
+                                className="btn btn-success"
+                            >
+                                <img src="/edit_img.png" alt="Editar" />
+                            </button>
+                        </div>
+                    </div>
+                ))}
+                {/* /////////////aqui el modal */}
                 <Modal
                     isOpen={modalIsOpen}
                     onRequestClose={() => setModalIsOpen(false)}

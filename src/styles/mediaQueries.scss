@@ -43,9 +43,8 @@
         }
     }
 }
-///////////////////////////////////////////////////////////PANTALLA 604PX
+//////////////////////////////////historial gastos
 @media (max-width: 604px) {
-    ///////////////////historial gastos
     .price-burguer {
         &__content-table {
             th.short-name-hg {
@@ -57,11 +56,9 @@
         }
     }
 }
-//////////////////////////////////BOTON BORRAR HISTORIAL GASTOS
 
-///////////////////////////////////////////////////////////PANTALLA 536PX
+////////////////////////nombres de precios ingredientes reducidos
 @media (max-width: 536px) {
-    ///////////////////nombres de precios ingredientes reducidos
     .price-burguer {
         &__content-table {
             th.short-name-i {
@@ -223,5 +220,51 @@
             width: 20px;
             margin-left: -5px;
         }
+    }
+}
+////////////////////////////////////////////para hamburguesas tarjetas
+@media (max-width: 632px) {
+    .ingredientes {
+        display: none;
+    }
+
+    .grid-container {
+        display: grid;
+        /* Dos columnas de igual ancho */
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+    .grid-item {
+        height: 300px;
+    }
+    .grid-burger img {
+        margin-top: 10px;
+        width: 60px;
+    }
+    .grid-item button {
+        img {
+            width: 30px;
+        }
+    }
+    .grid-item {
+        h2 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #ffe033;
+        }
+    }
+    .precio {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .grid-item {
+        h2 {
+            font-size: 1rem;
+        }
+    }
+    .grid-item {
+        height: 280px;
     }
 }
