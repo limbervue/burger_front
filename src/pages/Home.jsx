@@ -31,7 +31,7 @@ function Home() {
                             class="card-body"
                             style={{ background: '#FFE033' }}
                         >
-                            <h2 class="card-title">Inventarie</h2>
+                            <h2 class="card-title">Inventario</h2>
                         </div>
                     </div>
                 </Link>
