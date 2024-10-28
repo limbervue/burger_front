@@ -6,7 +6,7 @@ Modal.setAppElement('#root')
 function BurgerIngredientsPrices() {
     /////////////////////////////////////////////////
     const apiUrl = import.meta.env.VITE_API_URL
-    console.log('La apiUrl es: ' + apiUrl)
+    console.log('La apiUrl es...: ' + apiUrl)
     //////////////////////////////////////////////////
     const [productos, setProductos] = useState([])
     const [id, setId] = useState(null)
