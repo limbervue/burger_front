@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom'
 
 function Home() {
     return (
         <div className="home">
             <div className="home__home-container">
-                <Link to="/precios" style={{ textDecoration: "none" }}>
+                <Link to="/precios" style={{ textDecoration: 'none' }}>
                     <div className="card home__home-container__precios home__home-container__card">
                         <img
                             src="./img_precios.png"
@@ -13,14 +13,14 @@ function Home() {
                         />
                         <div
                             className="card-body"
-                            style={{ background: "#FFE033" }}
+                            style={{ background: '#FFE033' }}
                         >
                             <h2 className="card-title">Productos</h2>
                         </div>
                     </div>
                 </Link>
 
-                <Link to="/inventario" style={{ textDecoration: "none" }}>
+                <Link to="/inventario" style={{ textDecoration: 'none' }}>
                     <div class="card home__home-container__inventario home__home-container__card">
                         <img
                             src="./img_inventario.png"
@@ -29,14 +29,14 @@ function Home() {
                         />
                         <div
                             class="card-body"
-                            style={{ background: "#FFE033" }}
+                            style={{ background: '#FFE033' }}
                         >
-                            <h2 class="card-title">Inventario</h2>
+                            <h2 class="card-title">Inventarie</h2>
                         </div>
                     </div>
                 </Link>
 
-                <Link to="/facturacion" style={{ textDecoration: "none" }}>
+                <Link to="/facturacion" style={{ textDecoration: 'none' }}>
                     <div class="card home__home-container__facturacion home__home-container__card">
                         <img
                             src="./img_facturacion.png"
@@ -45,7 +45,7 @@ function Home() {
                         />
                         <div
                             class="card-body"
-                            style={{ background: "#FFE033" }}
+                            style={{ background: '#FFE033' }}
                         >
                             <h2 class="card-title">Transacción</h2>
                         </div>
@@ -58,13 +58,13 @@ function Home() {
                         class="card-img-top"
                         alt="..."
                     />
-                    <div class="card-body" style={{ background: "#FFE033" }}>
+                    <div class="card-body" style={{ background: '#FFE033' }}>
                         <h2 class="card-title">Estadísticas</h2>
                     </div>
                 </div>
             </div>
         </div>
-    );
+    )
 }
 
-export default Home;
+export default Home
