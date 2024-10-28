@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Modal from 'react-modal'
 import axios from 'axios'
+import ClipLoader from 'react-spinners/ClipLoader'
 
 function Inventory() {
     /////////////////////////////////////////////////
@@ -9,6 +10,7 @@ function Inventory() {
     const [products, setProducts] = useState([])
     const [mensaje, setMensaje] = useState('')
     const [modalIsOpenReset, setModalIsOpenReset] = useState(false)
+    const [loading, setLoading] = useState(false) // Estado de carga
 
     useEffect(() => {
         getIngredientsInv()
@@ -16,11 +18,14 @@ function Inventory() {
 
     //obtner ingredientes de inventario
     const getIngredientsInv = async () => {
+        setLoading(true)
         try {
             const response = await axios.get(`${apiUrl}/inventory`)
             setProducts(response.data)
         } catch (error) {
             console.error('There was a problem with the axios request:', error)
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -59,6 +64,14 @@ function Inventory() {
         <div className=" burguer_table price-burguer">
             <h1 className="mb-4 ">Inventario de Ingredientes</h1>
             <div className="table-responsive burguer_table__content-table price-burguer__content-table">
+                {loading && (
+                    <div
+                        className="loading"
+                        style={{ textAlign: 'center', marginBottom: '10px' }}
+                    >
+                        <ClipLoader color="#000" loading={true} size={50} />
+                    </div>
+                )}
                 <table className="table table-striped table-bordered table-dark">
                     <thead className="thead-dark">
                         <tr>
@@ -75,7 +88,7 @@ function Inventory() {
                                 <td>{product.total_units}</td>
                             </tr>
                         ))}
-                        <tr>
+                        {/* <tr>
                             <td colSpan={3}>
                                 <button
                                     className="btn btn-danger"
@@ -84,7 +97,7 @@ function Inventory() {
                                     Vaciar Inventario
                                 </button>
                             </td>
-                        </tr>
+                        </tr> */}
                     </tbody>
                 </table>
                 <Modal
