@@ -149,59 +149,54 @@ function BurgerIngredientsPrices() {
 
     //////////////////////////////////////////////////////////////////////////
     return (
-        <div className=" burguer_table price-burguer">
-            <h1 className="mb-4 ">Ingredientes</h1>
-            <div className="table-responsive burguer_table__content-table price-burguer__content-table">
-                {loading && (
-                    <div
-                        className="loading"
-                        style={{ textAlign: 'center', marginBottom: '10px' }}
-                    >
-                        <ClipLoader color="#000" loading={true} size={50} />
+        <div className="burguer-grid price-burguer">
+            {loading && (
+                <div
+                    className="loading"
+                    style={{ textAlign: 'center', marginBottom: '10px' }}
+                >
+                    <ClipLoader color="#000" loading={true} size={50} />
+                </div>
+            )}
+            <div className="grid-container">
+                {productos.map((producto) => (
+                    <div className="grid-item" key={producto._id}>
+                        <div className="grid-data">
+                            <h2>{producto.name}</h2>
+                            <p className="precio">
+                                <strong>$ Paquete:</strong> $
+                                {producto.package_price.toFixed(2)}
+                            </p>
+                            <p className="precio">
+                                <strong>$ Porción:</strong> $
+                                {producto.portion_price.toFixed(2)}
+                            </p>
+                            <p className="precio">
+                                <strong>Unidades:</strong>
+                                {producto.package_content}
+                            </p>
+                            <div className="grid-burger">
+                                <img src="/ingre.png" alt="" />
+                            </div>
+                        </div>
+                        <div className="grid-button">
+                            <button
+                                onClick={() =>
+                                    handleEditClick(
+                                        producto._id,
+                                        producto.name,
+                                        producto.package_price,
+                                        producto.portion_price,
+                                        producto.package_content
+                                    )
+                                }
+                                className="btn btn-success"
+                            >
+                                <img src="/edit_img.png" alt="Editar" />
+                            </button>
+                        </div>
                     </div>
-                )}
-                <table className="table table-striped table-bordered table-dark">
-                    <thead className="thead-dark">
-                        <tr>
-                            <th class="long-name-i">Producto</th>
-                            <th class="short-name-i">Producto</th>
-                            <th class="long-name-i">$ Paquetes</th>
-                            <th class="short-name-i">Paq.</th>
-                            <th class="long-name-i">$ Porción</th>
-                            <th class="short-name-i">Porc.</th>
-                            <th class="long-name-i">Unidades</th>
-                            <th class="short-name-i">Unids</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {productos.map((ingrediente) => (
-                            <tr key={ingrediente._id}>
-                                <td>{ingrediente.name}</td>
-                                <td>{ingrediente.package_price.toFixed(2)}</td>
-                                <td>{ingrediente.portion_price.toFixed(2)}</td>
-                                <td>{ingrediente.package_content}</td>
-
-                                <td>
-                                    <button
-                                        onClick={() =>
-                                            handleEditClick(
-                                                ingrediente._id,
-                                                ingrediente.name,
-                                                ingrediente.package_price,
-                                                ingrediente.portion_price,
-                                                ingrediente.package_content
-                                            )
-                                        }
-                                        className="btn btn-success"
-                                    >
-                                        <img src="/edit_img.png" alt="" />
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                ))}
 
                 <Modal
                     isOpen={modalIsOpen}

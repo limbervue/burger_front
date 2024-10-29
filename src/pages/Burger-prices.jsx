@@ -10,6 +10,7 @@ function BurgerPrices() {
     console.log('apiUrl es : ' + apiUrl)
     const [productos, setProductos] = useState([])
     const [id, setId] = useState(null)
+    const [code, setCode] = useState('')
     const [price, setPrice] = useState('')
     const [priceDB, setPriceDB] = useState('')
     const [modalIsOpen, setModalIsOpen] = useState(false)
@@ -37,12 +38,12 @@ function BurgerPrices() {
     }
 
     //al hacer click en editar se ejecuta esta funcion
-    const handleEditClick = (id, price_burger) => {
+    const handleEditClick = (id, price_burger, code) => {
         console.log('id recibido: ' + id)
         console.log('precio recibido: ' + price_burger)
         setId(id)
         const precio = parseFloat(price_burger)
-
+        setCode(code)
         setPrice(precio.toFixed(2))
         setPriceDB(precio.toFixed(2))
 
@@ -119,11 +120,14 @@ function BurgerPrices() {
                 {productos.map((producto) => (
                     <div className="grid-item" key={producto._id}>
                         <div className="grid-data">
-                            <h2>{producto.type}</h2>
-
+                            <h2>
+                                {producto.type} ({producto.code})
+                            </h2>
                             <p className="ingredientes">
                                 <strong>Ingredientes:</strong>{' '}
-                                {producto.ingredients.join(', ')}
+                                {producto.ingredients
+                                    .map((ingredient) => ingredient.name)
+                                    .join(', ')}
                             </p>
                             <p className="precio">
                                 <strong>Precio:</strong> $
@@ -138,7 +142,8 @@ function BurgerPrices() {
                                 onClick={() =>
                                     handleEditClick(
                                         producto._id,
-                                        producto.price
+                                        producto.price,
+                                        producto.code
                                     )
                                 }
                                 className="btn btn-success"
@@ -167,7 +172,7 @@ function BurgerPrices() {
                         },
                     }}
                 >
-                    <h2>Editar Precio</h2>
+                    <h2>Editar $ {code}</h2>
                     <div class="modal-edit">
                         <div class="modal-edit__input">
                             <input
