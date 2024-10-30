@@ -64,6 +64,11 @@ function BurgerIngredientsPrices() {
 
         setModalIsOpen(true)
     }
+    //para obtener el nombre del ingrediente despues del guion
+    const getText = (name) => {
+        const parts = name.split('-') // Divide el nombre en partes
+        return parts.length > 1 ? parts.slice(1).join('-') : '' // Toma la parte después del guion
+    }
     //al dar click en guardar se ejecuta esta funcion
     const handleSaveClick = async () => {
         setLoading(true)
@@ -218,7 +223,7 @@ function BurgerIngredientsPrices() {
                 >
                     <div className="modal-edit">
                         <div className="modal-edit__input">
-                            <h3>Editar {product}</h3>
+                            <h3>Editar {getText(product)}</h3>
                             <h4>$ Paquete</h4>
                             <input
                                 type="text"
