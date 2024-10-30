@@ -28,7 +28,11 @@ function Inventory() {
             setLoading(false)
         }
     }
-
+    //para obtener el nombre sin numero
+    const getText = (name) => {
+        const parts = name.split('-') // Divide el nombre en partes
+        return parts.length > 1 ? parts.slice(1).join('-') : '' // Toma la parte después del guion
+    }
     //VACIAR INVENTARIO
     const resetInventory = async () => {
         try {
@@ -84,7 +88,7 @@ function Inventory() {
                     <tbody>
                         {products.map((product) => (
                             <tr key={product._id}>
-                                <td>{product.ingredientName}</td>
+                                <td>{getText(product.ingredientName)}</td>
                                 <td>{product.total_units}</td>
                             </tr>
                         ))}

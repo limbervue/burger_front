@@ -112,6 +112,11 @@ function Expenses() {
         setModalIsOpen(true)
         console.log(code)
     }
+    //para mostrar solo nombre sinnumero
+    const getText = (name) => {
+        const parts = name.split('-') // Divide el nombre en partes
+        return parts.length > 1 ? parts.slice(1).join('-') : '' // Toma la parte después del guion
+    }
     const manejarAñadirPaquete = () => {
         if (!id) return
 
@@ -215,7 +220,7 @@ function Expenses() {
                             )
                             return (
                                 <tr key={ingrediente._id}>
-                                    <td>{ingrediente.name}</td>
+                                    <td>{getText(ingrediente.name)}</td>
                                     <td>
                                         {itemTemporal
                                             ? itemTemporal.paquetes
@@ -310,7 +315,7 @@ function Expenses() {
             >
                 <div className="modal-edit">
                     <div className="modal-edit__input">
-                        <h3>Paquetes de {product}</h3>
+                        <h3>Paquetes de {getText(product)}</h3>
                         <div>
                             <input
                                 type="number"
