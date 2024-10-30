@@ -130,7 +130,7 @@ function HistoryPurchase() {
 
         // Crea la tabla
         const tableData = detailsExpenses.map((detalle) => [
-            detalle.ingredient_id.name,
+            detalle.ingredient_name,
             detalle.package,
             detalle.units,
             Number(detalle.total).toFixed(2),
@@ -275,9 +275,7 @@ function HistoryPurchase() {
                                                 <tr key={detalle._id}>
                                                     <td>
                                                         {
-                                                            detalle
-                                                                .ingredient_id
-                                                                .name
+                                                            detalle.ingredient_name
                                                         }
                                                     </td>
                                                     <td>{detalle.package}</td>

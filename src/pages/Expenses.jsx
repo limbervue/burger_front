@@ -11,6 +11,7 @@ Modal.setAppElement('#root')
 function Expenses() {
     const apiUrl = import.meta.env.VITE_API_URL
     const [id, setId] = useState(null)
+    const [code, setCode] = useState(null)
     const [price_porcion, setPricePorcion] = useState('')
     const [price_paquete, setPricePaquete] = useState('')
     const [units, setUnits] = useState('')
@@ -95,7 +96,8 @@ function Expenses() {
         price_paquete,
         price_porcion,
         units,
-        product
+        product,
+        code
     ) => {
         setId(id)
         const paquete = parseFloat(price_paquete)
@@ -106,7 +108,9 @@ function Expenses() {
         setPricePorcion(porcion.toFixed(2))
         setUnits(unidades)
         setProduct(product)
+        setCode(code)
         setModalIsOpen(true)
+        console.log(code)
     }
     const manejarAñadirPaquete = () => {
         if (!id) return
@@ -137,6 +141,7 @@ function Expenses() {
                 ...tablaTemporal,
                 {
                     id: id,
+                    code: code,
                     nombre: product,
                     paquetes: cantidadPaquetes,
                     unidades: cantidadPaquetes * units,
@@ -236,7 +241,8 @@ function Expenses() {
                                                             ingrediente.package_price,
                                                             ingrediente.portion_price,
                                                             ingrediente.package_content,
-                                                            ingrediente.name
+                                                            ingrediente.name,
+                                                            ingrediente.code
                                                         )
                                                     }
                                                     className="btn btn-success"
