@@ -26,7 +26,7 @@ function BurgerPrices() {
         try {
             const response = await axios.get(`${apiUrl}/burgers`)
             setProductos(response.data)
-            console.log(response.data) // Imprime los datos obtenidos de la API
+            console.log('datos de hamburguesas..', response.data) // Imprime los datos obtenidos de la API
         } catch (error) {
             console.error(
                 'There was a problem with the fetch operation:',
@@ -139,13 +139,14 @@ function BurgerPrices() {
                         </div>
                         <div className="grid-button">
                             <button
-                                onClick={() =>
+                                onClick={() => {
+                                    console.log(producto)
                                     handleEditClick(
-                                        producto._id,
+                                        producto.id,
                                         producto.price,
                                         producto.code
                                     )
-                                }
+                                }}
                                 className="btn btn-success"
                             >
                                 <img src="/edit_img.png" alt="Editar" />
