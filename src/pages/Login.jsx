@@ -58,6 +58,11 @@ function Login({ username, setUsername, password, setPassword }) {
                 // En caso de error sin respuesta del servidor (problema de red, por ejemplo)
                 alert('Login fallido: No se pudo conectar con el servidor.')
             }
+            if (error.response.status === 503) {
+                setMensaje(error.response.data.message)
+            } else {
+                console.error('Error en la solicitud:', error)
+            }
         } finally {
             setLoading(false)
         }
