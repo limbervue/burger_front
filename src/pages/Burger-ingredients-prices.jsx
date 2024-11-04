@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react'
 import Modal from 'react-modal'
 import axios from 'axios'
 import ClipLoader from 'react-spinners/ClipLoader'
-
 Modal.setAppElement('#root')
 
 function BurgerIngredientsPrices() {
@@ -29,8 +28,14 @@ function BurgerIngredientsPrices() {
     const getIngredients = async () => {
         setLoading(true)
         try {
-            const response = await axios.get(`${apiUrl}/ingredients`)
-            setProductos(response.data)
+            const token = localStorage.getItem('token')
+            const response = await axios.get(`${apiUrl}/ingredients`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            setProductos(response.data.ingredients)
+            console.log(response.data.userId)
         } catch (error) {
             console.error(
                 'There was a problem with the fetch operation:',

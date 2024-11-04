@@ -24,7 +24,12 @@ function BurgerPrices() {
     const getBurgers = async () => {
         setLoading(true)
         try {
-            const response = await axios.get(`${apiUrl}/burgers`)
+            const token = localStorage.getItem('token')
+            const response = await axios.get(`${apiUrl}/burgers`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
             setProductos(response.data)
             console.log('datos de hamburguesas..', response.data) // Imprime los datos obtenidos de la API
         } catch (error) {
@@ -34,6 +39,7 @@ function BurgerPrices() {
             )
         } finally {
             setLoading(false)
+            console.log(`la ruta es: ${apiUrl}/burgers`)
         }
     }
 
