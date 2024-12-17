@@ -1,78 +1,195 @@
-///////////////////////////////////////////////////////////ESTILOS DEL LOGO HEADER
-.loading {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh; /* Ajusta esto según tu diseño */
-    position: fixed; /* Fija el spinner en la pantalla */
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(255, 255, 255, 0.8); /* Fondo semitransparente */
-    z-index: 1000; /* Asegúrate de que esté en la parte superior */
+////////////////////////////////////////mixing para flex
+@import "./login.scss";
+@import "./burger.scss";
+@mixin flex($display, $jsCont, $alItem, $grap: null) {
+    display: $display;
+    align-items: $alItem;
+    justify-content: $jsCont;
+    @if $grap != null {
+        flex-wrap: $grap;
+    }
 }
+//////////////////////mixing para position
+@mixin position(
+    $position,
+    $left: null,
+    $right: null,
+    $top: null,
+    $bottom: null
+) {
+    position: $position;
 
+    @if $left != null {
+        left: $left;
+    }
+    @if $right != null {
+        right: $right;
+    }
+    @if $top != null {
+        top: $top;
+    }
+    @if $bottom != null {
+        bottom: $bottom;
+    }
+}
+///////////////////////////////7mixing transicion
+@mixin transition($type, $time, $scale: null) {
+    transition: $type $time;
+    transform: scale($scale);
+    cursor: pointer;
+}
+///////////////////////mixing tamaño
+@mixin size($heigth: null, $width: null, $margin: null, $padding: null) {
+    @if $heigth != null {
+        heigth: $heigth;
+    }
+    @if $width != null {
+        width: $width;
+    }
+    @if $padding != null {
+        padding: $padding;
+    }
+    @if $margin != null {
+        margin: $margin;
+    }
+}
+///////////////////////////////////////////////////////////////////////////////////
+/// //////////////////////////////////////////////////////////////////////ESTILOS
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////loading - cargando
+.loading {
+    @include flex(flex, center, center);
+    @include position(fixed, 0, 0, 0, 0);
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.8);
+    z-index: 1000;
+}
+///////////////////////////////logo taco-food
 .logo-content {
     img {
-        width: 170px;
-        margin: 40px;
-        transition: transform 0.2s ease-in-out;
+        @include size(null, 170px, 40px, null);
+        @include transition(transform, 0.2s ease-in-out);
     }
 
     img:hover {
-        transition: transform 0.2s ease-in-out;
-        transform: scale(1.05);
-        cursor: pointer;
+        @include transition(transform, 0.2s ease-in-out, 1.05);
     }
 
     a {
         img:hover {
             box-shadow: 0 0 10px 5px rgba(223, 175, 31, 0.9);
-            transition: box-shadow 0.3s ease;
+            @include transition(box-shadow, 0.3s ease);
             border-radius: 50%;
         }
     }
 }
-
+$background-main: rgb(0, 0, 0);
 ///////////////////////////////////////////////////////////ESTILOS DEL MAIN
 .main-content {
     min-height: 100vh;
-    background-color: black;
+    background-color: $background-main;
 }
 
 /////////////////////////////////////////////////////////ESTILOS DEL HOME
 .home {
-    height: auto;
-    justify-content: center;
-    align-items: center;
-
     &__home-container {
+        @include flex(flex, center, center, wrap);
         padding-top: 20px;
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
         gap: 1rem;
 
         &__card {
-            transition: transform 0.3s ease-in-out;
+            @include transition(transform, 0.3s ease-in-out);
             width: 13rem;
             h2 {
                 font-size: 1.5rem;
             }
         }
-
         &__card:hover {
-            transform: scale(1.05);
-            cursor: pointer;
+            @include transition(transform, 0.3s ease-in-out, 1.05);
             box-shadow: 0 0 10px 5px rgba(191, 144, 0, 0.7);
-            transition: box-shadow 0.3s ease;
-            transition: transform 0.3s ease-in-out;
         }
     }
 }
+/////////////////////////////////boton de cambio de contraseña
+.btn-key {
+    img {
+        width: 20px;
+    }
+}
+//////////////////////////////////parrafo validacion de password
+.validate-password {
+    display: flex;
+    width: 250px;
+    p {
+        font-size: 12px;
+        color: red;
+    }
+}
+//////////////////////////////////////////////////////
+//////////////////////////////////////////////navMobile
+.hamburger-btn {
+    display: block;
+    position: absolute;
+    top: 200px;
+    color: #ccc;
+    font-size: 25px;
+    z-index: 8;
+    transition: left 1s ease, right 1s ease;
+}
 
-///////////////////////////////////////////////////////////////estilos de precios
+/* Cuando el menú está cerrado, coloca la hamburguesa a la izquierda */
+.hamburger-btn--open {
+    left: 10px; /* Alineado a la izquierda */
+}
+
+/* Cuando el menú está abierto, coloca la X a la derecha */
+.hamburger-btn--close {
+    top: 230px;
+    right: 233px; /* Alineado a la derecha */
+}
+
+/* Estilos para el menú */
+.navMobile {
+    padding-top: 35px;
+    position: absolute;
+    top: 235px;
+    left: -100%;
+    width: auto;
+    padding-right: 20px;
+    height: auto;
+    list-style: none;
+    border-radius: 5px;
+    border: 2px solid #7d7c7c;
+    background-color: rgb(33, 31, 31);
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    transition: left 0.1s ease;
+    z-index: 7;
+    padding-bottom: 10px;
+}
+
+/* Cuando el menú está abierto, se mueve hacia la derecha */
+.navMobile--open {
+    left: -10px;
+}
+
+/* Estilos de los enlaces */
+.navMobile__item {
+    margin: 20px 0;
+}
+.navMobile__item:hover {
+    background-color: rgb(152, 97, 97);
+    transition: background-color 0.3s ease;
+}
+
+.navMobile-link {
+    color: #ccc;
+    font-size: 18px;
+    text-decoration: none;
+}
+///////////////////////////////////////////////////////
+/////////////////////////////////////////////////////nav
 .nav {
     margin: 0 40px 40px;
     background-color: rgb(27, 27, 27);
@@ -150,13 +267,6 @@
         }
 
         ////////////////gastos
-        .nav-link.long-name-gast {
-            display: table-cell;
-        }
-
-        .nav-link.short-name-gast {
-            display: none;
-        }
 
         /////////////////////////para columna de ingredientes
         .ingredientes {
@@ -177,9 +287,8 @@ button:hover {
     transform: scale(1.05);
     border-radius: 5px;
 }
-
-.modal-edit {
-    flex-direction: column;
+//////////////////////////////modal general
+.modalContent {
     input {
         margin-bottom: 10px;
     }
@@ -209,175 +318,15 @@ button:hover {
         th {
             color: #ffe033;
         }
+        span {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            cursor: pointer;
+            font-size: 25px;
+        }
+        
     }
 }
 
-///////////////////////////////////////////////////styles grid hamburger
-.burguer-grid {
-    padding: 20px;
-    width: 90%;
-    margin: auto;
-}
 
-.grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 30px;
-}
-
-.grid-item {
-    position: relative;
-    background-color: #333;
-    color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: start;
-}
-.grid-item {
-    h2 {
-        font-size: 1.5rem;
-        margin-bottom: 10px;
-        color: #ffe033;
-    }
-}
-
-.grid-item .ingredientes {
-    font-size: 0.9em;
-    //margin: 10px 0;
-}
-
-.grid-item p {
-    margin: 5px 0;
-}
-
-.grid-item button {
-    position: absolute;
-    bottom: 20px; /* Ajusta este valor para la distancia desde abajo */
-    left: 20px;
-    margin-top: 20px;
-    background-color: #28a745;
-    color: #fff;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    img {
-        width: 40px;
-    }
-}
-.grid-data {
-    margin-bottom: 100px;
-}
-.grid-burger img {
-    margin-top: 10px;
-    width: 80px;
-}
-
-.grid-item button:hover {
-    background-color: #218838;
-}
-///////////////////////////////////////////////////////////LOGIN
-.content-login {
-    height: 100%;
-    margin: 0;
-}
-
-.background-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.login-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.background-image img {
-    max-width: 100%;
-    height: auto;
-    opacity: 0.4;
-}
-.login-form {
-    display: flex;
-    flex-direction: column; /* Alinea los inputs en columna */
-    gap: 10px; /* Espaciado entre inputs */
-    h1 {
-        color: #fff;
-    }
-}
-.login-form input {
-    margin: 10px 0;
-    padding: 10px;
-    width: 100%;
-    max-width: 300px;
-}
-
-.login-form button {
-    padding: 10px;
-    width: 100%;
-    max-width: 300px;
-    background-color: #c03811;
-    color: #fff;
-}
-
-.btn-login:disabled {
-    background-color: #c03811;
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-.btn-login:hover {
-    background-color: #c03811;
-    opacity: 0.8;
-}
-////////////////////boton cierre de sesion
-.btn-closeSesion {
-    position: absolute;
-    right: 20px;
-    top: 20px;
-    padding: 7px;
-    border-radius: 5px;
-    background-color: rgb(125, 12, 12);
-    color: #ccc;
-    font-size: 14px;
-}
-.btn-closeSesion:hover {
-    background-color: rgb(125, 12, 12);
-    opacity: 0.8;
-    color: #ccc;
-}
-/////////////////////titulo usuario
-.tipoUser {
-    margin-top: 10px;
-}
-
-.tipoUser h3 {
-    font-size: 20px;
-    color: #fff;
-    text-align: center; /* Alinear texto al centro */
-}
-/////////////////////////boton user
-.btn-user {
-    position: absolute;
-    right: 150px;
-    top: 20px;
-    padding: 7px;
-    border-radius: 5px;
-    background-color: rgb(64, 104, 135);
-    color: #ccc;
-    font-size: 14px;
-}
-.btn-user:hover {
-    background-color: rgb(64, 104, 135);
-    opacity: 0.8;
-    color: #ccc;
-}

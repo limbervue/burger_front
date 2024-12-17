@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 
-function Home() {
+export function Home() {
     return (
         <div className="home">
             <div className="home__home-container">
@@ -66,5 +66,3 @@ function Home() {
         </div>
     )
 }
-
-export default Home

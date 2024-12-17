@@ -1,0 +1,63 @@
+.burguer-grid {
+    padding: 20px;
+    width: 90%;
+    margin: auto;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.grid-item {
+    position: relative;
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: start;
+}
+.grid-item {
+    h2 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+        color: #ffe033;
+    }
+}
+
+.grid-item .ingredientes {
+    font-size: 0.9em;
+    //margin: 10px 0;
+}
+
+.grid-item p {
+    margin: 5px 0;
+}
+
+.grid-item button {
+    position: absolute;
+    bottom: 20px; /* Ajusta este valor para la distancia desde abajo */
+    left: 20px;
+    margin-top: 20px;
+    background-color: #28a745;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    img {
+        width: 40px;
+    }
+}
+.grid-data {
+    margin-bottom: 100px;
+}
+.grid-burger img {
+    margin-top: 10px;
+    width: 80px;
+}
+
+.grid-item button:hover {
+    background-color: #218838;
+}

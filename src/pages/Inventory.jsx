@@ -2,8 +2,12 @@ import React, { useState, useEffect } from 'react'
 import Modal from 'react-modal'
 import axios from 'axios'
 import ClipLoader from 'react-spinners/ClipLoader'
+import {
+    getIngredientsInvService,
+    resetInventoryService,
+} from '../services/inventoryService'
 
-function Inventory() {
+export function Inventory() {
     /////////////////////////////////////////////////
     const apiUrl = import.meta.env.VITE_API_URL
     //////////////////////////////////////////////////
@@ -11,6 +15,7 @@ function Inventory() {
     const [mensaje, setMensaje] = useState('')
     const [modalIsOpenReset, setModalIsOpenReset] = useState(false)
     const [loading, setLoading] = useState(false) // Estado de carga
+    const token = localStorage.getItem('token')
 
     useEffect(() => {
         getIngredientsInv()
@@ -20,10 +25,11 @@ function Inventory() {
     const getIngredientsInv = async () => {
         setLoading(true)
         try {
-            const response = await axios.get(`${apiUrl}/inventory`)
-            setProducts(response.data)
+            const data = await getIngredientsInvService(token)
+            setProducts(data)
+            console.log('datos de hamburguesas:', data)
         } catch (error) {
-            console.error('There was a problem with the axios request:', error)
+            console.error('Error al obtener las hamburguesas:', error)
         } finally {
             setLoading(false)
         }
@@ -36,30 +42,24 @@ function Inventory() {
     //VACIAR INVENTARIO
     const resetInventory = async () => {
         try {
-            const response = await axios.put(
-                `${apiUrl}/reset-inventory/`,
-                {},
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            )
-            const data = response.data
-            console.log(data)
+            const data = await resetInventoryService(token)
+
             // Actualizar la lista de productos en el frontend
-            const updatedGatos = products.map((gasto) => ({
-                ...gasto,
+            const updatedProducts = products.map((product) => ({
+                ...product,
                 total_unidades: 0,
             }))
+            setProducts(updatedProducts)
 
-            setProducts(updatedGatos)
+            // Mostrar mensaje de éxito
             setMensaje(data.message)
             setModalIsOpenReset(false)
+
+            // Refrescar los datos relacionados (ingredientes en este caso)
             getIngredientsInv()
         } catch (error) {
-            console.error('Error al restablecer los valores:', error)
-            setMensaje('Hubo un error al restablecer los valores.')
+            console.error(error.message)
+            setMensaje(error.message)
         }
     }
 
@@ -87,12 +87,12 @@ function Inventory() {
                     </thead>
                     <tbody>
                         {products.map((product) => (
-                            <tr key={product._id}>
-                                <td>{getText(product.ingredientName)}</td>
-                                <td>{product.total_units}</td>
+                            <tr key={product.id}>
+                                <td>{getText(product.name)}</td>
+                                <td>{product.total}</td>
                             </tr>
                         ))}
-                        {/* <tr>
+                        <tr>
                             <td colSpan={3}>
                                 <button
                                     className="btn btn-danger"
@@ -101,7 +101,7 @@ function Inventory() {
                                     Vaciar Inventario
                                 </button>
                             </td>
-                        </tr> */}
+                        </tr>
                     </tbody>
                 </table>
                 <Modal
@@ -146,5 +146,3 @@ function Inventory() {
         </div>
     )
 }
-
-export default Inventory
